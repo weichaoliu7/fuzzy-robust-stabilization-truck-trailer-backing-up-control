@@ -32,11 +32,12 @@ function sys=mdlOutputs(t,x,u)
 x1 = u(2); % angle difference between truck and trailer
 x2 = u(3); % angle of trailer
 x3 = u(4); % vertical position of rear end of trailer
+
 velocity = -1.0; % constant speed of backing up, m/s
 length_trailer = 6.5; % length of trailer, m
 x = [x1;x2;x3]; % state variable x1,x2,x3
-f1 = 1.2 * [1.2837, -0.4139, 0.0201]; % feedback gain
-f2 = 1.2 * [0.9773, -0.0709, 0.0005];
+f1 = [1.2837, -0.4139, 0.0201]; % feedback gain
+f2 = [0.9773, -0.0709, 0.0005];
 
 temp = x2 + velocity * t /(2*length_trailer) * x1;
 

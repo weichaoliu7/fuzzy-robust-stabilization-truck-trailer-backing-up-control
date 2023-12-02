@@ -52,7 +52,7 @@ struct _controller{
 void CONTROLLER_init(){
     controller.scenario = 3; // select truck-trailer initial position
     double scenarionumber[4][5] = {{0.0, 0.0, 0.0, 20.0, 0.0}, {PI, 0.0, PI, 20.0, 0.0}, 
-    {PI / 4, -PI / 4, PI / 2, -10.0, 0.0}, {PI / 4, -PI / 2, 3 * PI / 4, -10.0, 0.0}};
+    {PI / 4, -PI / 4, PI / 2, -10.0, 0.0}, {PI / 2, -PI / 4, 3 * PI / 4, -10.0, 0.0}};
     switch (controller.scenario){
     case 0:
         for (int j = 0; j < 5; j++){
@@ -159,13 +159,14 @@ void PLANT_init(){
 double PLANT_realize(int i){
     plant.plant_u[0] = controller.controller_out[0];
     plant.plant_u[1] = controller.controller_out[1];
-    plant.simplifiedmodel = 0;
+    plant.simplifiedmodel = 1;
     double time = i * Ts + t0;
 
     switch (plant.simplifiedmodel){
 
     // simplified truck-trailer model
     case 0:
+        // if x2(k) + v*t/(2*L)-x1(k) is about pi (rad) or -pi (rad)
         if (plant.plant_u[0] == 0){
             // derivative of angle difference between truck and trailer, Eq. 34
             system_state.x_derivative[1] = -(velocity / length_trailer) * system_state.x[1] + (velocity / length_truck) * controller.control;
@@ -176,6 +177,7 @@ double PLANT_realize(int i){
             // derivative of angle of truck, Eq. 19's difference equation
             system_state.x_derivative[0] = system_state.x_derivative[1] + system_state.x_derivative[2];
         }
+        // if x2(k) + v*t/(2*L)-x1(k) is about 0
         else if (plant.plant_u[0] == 1){
             // derivative of angle difference between truck and trailer, Eq. 34
             system_state.x_derivative[1] = -(velocity / length_trailer) * system_state.x[1] + (velocity / length_truck) * controller.control;
@@ -186,9 +188,10 @@ double PLANT_realize(int i){
             // derivative of angle of truck, Eq. 19's difference equation
             system_state.x_derivative[0] = system_state.x_derivative[1] + system_state.x_derivative[2];
         }
+        // Ichihashi truck-trailer model
         else if (plant.plant_u[0] == 2){
             // derivative of angle of truck, Eq. 18
-            system_state.x_derivative[0] = velocity / length_truck * controller.control;
+            system_state.x_derivative[0] = velocity / length_truck * tan(controller.control);
             // derivative of angle of trailer, Eq. 20
             system_state.x_derivative[2] = velocity / length_trailer * sin(system_state.x[1]);
             // derivative of angle difference between truck and trailer, Eq. 19's difference equation
@@ -200,7 +203,7 @@ double PLANT_realize(int i){
     // Ichihashi truck-trailer model
     case 1:
         // derivative of angle of truck, Eq. 18
-        system_state.x_derivative[0] = velocity / length_truck * controller.control;
+        system_state.x_derivative[0] = velocity / length_truck * tan(controller.control);
         // derivative of angle of trailer, Eq. 20
         system_state.x_derivative[2] = velocity / length_trailer * sin(system_state.x[1]);
         // derivative of angle difference between truck and trailer, Eq. 19's difference equation
@@ -250,13 +253,6 @@ double PLANT_realize(int i){
 
     for (int j = 0; j < 5; j++){
         system_state.x[j] += system_state.x_derivative[j] * Ts; // state vsariable update
-    }
-
-    // 90 deg and -90 deg correspond to two jackknife positions
-    if (system_state.x[1] <= -PI / 2.0) {
-        system_state.x[1] = -PI / 2.0;
-    } else if (system_state.x[1] >= PI / 2.0) {
-        system_state.x[1] = PI / 2.0;
     }
 
     for (int j = 0; j < 5; j++){

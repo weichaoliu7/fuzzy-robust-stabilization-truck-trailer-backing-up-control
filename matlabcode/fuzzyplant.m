@@ -23,10 +23,10 @@ sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 0;
 sys=simsizes(sizes);
 % initial position(x0 x1 x2 x3 x4)
-x0=[0 0 0 20 0]; % case 1
+% x0=[0 0 0 20 0]; % case 1
 % x0=[pi 0 pi 20 0]; % case 2
 % x0=[pi/4 -pi/4 pi/2 -10 0]; % case 3
-% x0=[pi/4 -pi/2 3*pi/4 -10 0]; % case 4
+x0=[pi/2 -pi/4 3*pi/4 -10 0]; % case 4
 str=[];
 ts=[];
 
@@ -55,7 +55,7 @@ elseif flag1 == 1
     x_derivative(5) = velocity * cos(x(2)) * cos(x(3) + (velocity * t/length_trailer * sin(x(2)))/2); % derivative of horizontal position of rear end of trailer, Eq. 22
 % Ichihashi truck-trailer model
 elseif flag1 == 2
-    x_derivative(1) = velocity / length_truck * control; % derivative of angle of truck, Eq. 18
+    x_derivative(1) = velocity / length_truck * tan(control); % derivative of angle of truck, Eq. 18
     x_derivative(3) = velocity /length_trailer * sin(x(2)); % derivative of angle of trailer, Eq. 20
     x_derivative(2) = x_derivative(1) - x_derivative(3); % derivative of angle difference between truck and trailer, Eq. 19's difference equation
     x_derivative(4) = velocity * cos(x(2)) * sin(x(3) + (velocity * t/length_trailer * sin(x(2)))/2); % derivative of vertical position of rear end of trailer, Eq. 21
@@ -70,13 +70,6 @@ sys(5)=x_derivative(5);
 
 function sys=mdlOutputs(t,x,u)
 sys(1)=x(1); % angle of truck
-
-% 90 deg and -90 deg correspond to two jackknife positions
-if x(2) <= -pi/2
-    x(2) = -pi/2;
-elseif x(2) >= pi/2
-     x(2) = pi/2;
-end
 
 sys(2)=x(2); % angle difference between truck and trailer
 sys(3)=x(3); % angle of trailer

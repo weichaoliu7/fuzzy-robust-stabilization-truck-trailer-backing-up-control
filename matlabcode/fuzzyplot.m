@@ -17,7 +17,6 @@ y4 = position(:, 17);  % y-coordinate of point 6
 figure;
 axis equal;  % set equal aspect ratio for x-axis and y-axis
 hold on;
-
 num_colors = 10;
 colors = parula(num_colors);
 color_index = 1;
@@ -33,5 +32,4 @@ for i = 1:size(position, 1)
         color_index = color_index + 1;
     end
 end
-
 hold off;
