@@ -70,6 +70,14 @@ sys(5)=x_derivative(5);
 
 function sys=mdlOutputs(t,x,u)
 sys(1)=x(1); % angle of truck
+
+% 90 deg and -90 deg correspond to two jackknife positions
+if x(2) <= -pi/2
+    x(2) = -pi/2;
+elseif x(2) >= pi/2
+     x(2) = pi/2;
+end
+
 sys(2)=x(2); % angle difference between truck and trailer
 sys(3)=x(3); % angle of trailer
 sys(4)=x(4); % vertical position of rear end of trailer

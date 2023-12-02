@@ -38,6 +38,7 @@ length_trailer = 6.5; % length of trailer, m
 d = (10^-2)/pi;
 
 % Ichihashi truck-trailer model
+
 x_derivative(1) = velocity / length_truck * control; % derivative of angle of truck, Eq. 18
 x_derivative(3) = velocity /length_trailer * sin(x(2)); % derivative of angle of trailer, Eq. 20
 x_derivative(2) = x_derivative(1) - x_derivative(3); % derivative of angle difference between truck and trailer, Eq. 19's difference equation
@@ -51,6 +52,14 @@ sys(4)=x_derivative(4);
 sys(5)=x_derivative(5);
 function sys=mdlOutputs(t,x,u)
 sys(1)=x(1); % angle of truck
+
+% 90 deg and -90 deg correspond to two jackknife positions
+if x(2) <= -pi/2
+    x(2) = -pi/2;
+elseif x(2) >= pi/2
+     x(2) = pi/2;
+end
+
 sys(2)=x(2); % angle difference between truck and trailer
 sys(3)=x(3); % angle of trailer
 sys(4)=x(4); % vertical position of rear end of trailer

@@ -50,7 +50,7 @@ struct _controller{
 } controller;
 
 void CONTROLLER_init(){
-    controller.scenario = 0; // select truck-trailer initial position
+    controller.scenario = 3; // select truck-trailer initial position
     double scenarionumber[4][5] = {{0.0, 0.0, 0.0, 20.0, 0.0}, {PI, 0.0, PI, 20.0, 0.0}, 
     {PI / 4, -PI / 4, PI / 2, -10.0, 0.0}, {PI / 4, -PI / 2, 3 * PI / 4, -10.0, 0.0}};
     switch (controller.scenario){
@@ -249,7 +249,14 @@ double PLANT_realize(int i){
     }
 
     for (int j = 0; j < 5; j++){
-        system_state.x[j] += system_state.x_derivative[j] * Ts;
+        system_state.x[j] += system_state.x_derivative[j] * Ts; // state vsariable update
+    }
+
+    // 90 deg and -90 deg correspond to two jackknife positions
+    if (system_state.x[1] <= -PI / 2.0) {
+        system_state.x[1] = -PI / 2.0;
+    } else if (system_state.x[1] >= PI / 2.0) {
+        system_state.x[1] = PI / 2.0;
     }
 
     for (int j = 0; j < 5; j++){

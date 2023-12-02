@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.604"
+    ComputedModelVersion    "1.605"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -104,9 +104,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "lenovo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 01 21:10:14 2023"
-  RTWModifiedTimeStamp	  623365646
-  ModelVersionFormat	  "1.%<AutoIncrement:604>"
+  LastModifiedDate	  "Sat Dec 02 13:33:23 2023"
+  RTWModifiedTimeStamp	  623424803
+  ModelVersionFormat	  "1.%<AutoIncrement:605>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -218,7 +218,7 @@ Model {
 	  DisabledProps		  []
 	  Description		  ""
 	  StartTime		  "0"
-	  StopTime		  "150"
+	  StopTime		  "160"
 	  AbsTol		  "auto"
 	  AutoScaleAbsTol	  on
 	  FixedStep		  "0.001"

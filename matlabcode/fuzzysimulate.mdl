@@ -69,8 +69,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1864.0, 798.0]
-	ZoomFactor		[1.7499999999999998]
-	Offset			[459.61112271956716, 549.69545898110994]
+	ZoomFactor		[1.5]
+	Offset			[392.30953541797987, 537.44149072714163]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -104,7 +104,7 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "lenovo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Dec 01 13:55:05 2023"
+  LastModifiedDate	  "Sat Dec 02 13:32:19 2023"
   RTWModifiedTimeStamp	  623337949
   ModelVersionFormat	  "1.%<AutoIncrement:604>"
   SampleTimeColors	  off
@@ -1023,7 +1023,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "175"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "88"
     Block {
